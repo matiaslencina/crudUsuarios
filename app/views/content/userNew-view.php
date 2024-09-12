@@ -5,7 +5,7 @@
 
 <div class="container pb-6 pt-6">
 
-	<form class="" action="<?php echo APP_URL; ?>app/ajax/usuarioAjax.php" method="POST" autocomplete="off" enctype="multipart/form-data" >
+	<form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/usuarioAjax.php" method="POST" autocomplete="off" enctype="multipart/form-data" >
 
 		<input type="hidden" name="modulo_usuario" value="registrar">
 

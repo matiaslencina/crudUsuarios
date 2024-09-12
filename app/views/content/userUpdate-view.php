@@ -16,41 +16,37 @@
 	<?php } ?>
 </div>
 <div class="container pb-6 pt-6">
-	
+	<?php 
+		include "./app/views/inc/btn_back.php";
 
-	<p class="has-text-right pt-4 pb-4">
-		<a href="#" class="button is-link is-rounded btn-back"><- Regresar atrás</a>
-	</p>
-	<script type="text/javascript">
-	    let btn_back = document.querySelector(".btn-back");
+		$datos=$insLogin->seleccionarDatos("Unico", "usuario", "usuario_id", $id);
 
-	    btn_back.addEventListener('click', function(e){
-	        e.preventDefault();
-	        window.history.back();
-	    });
-	</script>
+		if($datos->rowCount()==1){
+			$datos=$datos->fetch();
+	?>
 
+	<h2 class="title has-text-centered"><?php echo $datos['usuario_nombre']." ".$datos['usuario_apellido']; ?></h2>
 
-	<h2 class="title has-text-centered">Nombre completo</h2>
+	<p class="has-text-centered pb-6"><?php echo "<strong>Usuario creado:</strong> ".date("d-m-Y  h:i:s A",strtotime($datos['usuario_creado']))." &nbsp; <strong>Usuario actualizado:</strong> ".date("d-m-Y  h:i:s A",strtotime($datos['usuario_actualizado'])); ?></p>
 
-	<p class="has-text-centered pb-6"><strong>Usuario creado:</strong> Fecha &nbsp; <strong>Usuario actualizado:</strong> Fecha</p>
+	<form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/usuarioAjax.php" method="POST" autocomplete="off" >
 
-	<form class="FormularioAjax" action="" method="POST" autocomplete="off" >
 
 		<input type="hidden" name="modulo_usuario" value="actualizar">
-		<input type="hidden" name="usuario_id" value="1">
+		<input type="hidden" name="usuario_id" value="<?php echo $datos['usuario_id']; ?>">
+
 
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
 					<label>Nombres</label>
-				  	<input class="input" type="text" name="usuario_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+				  	<input class="input" type="text" name="usuario_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" value="<?php echo $datos['usuario_nombre']; ?>" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
 					<label>Apellidos</label>
-				  	<input class="input" type="text" name="usuario_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+				  	<input class="input" type="text" name="usuario_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" value="<?php echo $datos['usuario_apellido']; ?>" required >
 				</div>
 		  	</div>
 		</div>
@@ -58,13 +54,13 @@
 		  	<div class="column">
 		    	<div class="control">
 					<label>Usuario</label>
-				  	<input class="input" type="text" name="usuario_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required >
+				  	<input class="input" type="text" name="usuario_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" value="<?php echo $datos['usuario_usuario']; ?>" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
 					<label>Email</label>
-				  	<input class="input" type="email" name="usuario_email" maxlength="70" >
+				  	<input class="input" type="email" name="usuario_email" maxlength="70" value="<?php echo $datos['usuario_email']; ?>" >
 				</div>
 		  	</div>
 		</div>
@@ -109,14 +105,10 @@
 			<button type="submit" class="button is-success is-rounded">Actualizar</button>
 		</p>
 	</form>
-	
+	<?php
+	}else{
+		include "./app/views/inc/error_alert.php";
+	}
 
-	<article class="message is-danger">
-		 <div class="message-header">
-		    <p>¡Ocurrio un error inesperado!</p>
-		 </div>
-	    <div class="message-body">No se pudo cargar los datos solicitados</div>
-	</article>
-
-
+	?>
 </div>
